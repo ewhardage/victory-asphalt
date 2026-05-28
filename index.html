@@ -409,6 +409,27 @@
       font: 400 13px/1.5 var(--f-body); color: var(--text-mute); text-align: center;
     }
 
+    /* Form success state */
+    .form-success {
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: 16px; padding: 48px 0;
+    }
+    .success-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--gold); color: var(--text);
+      font: 700 22px/52px var(--f-body); text-align: center;
+      flex-shrink: 0;
+    }
+    .success-title {
+      font: 800 clamp(32px, 4vw, 48px)/1 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+    }
+    .success-body {
+      font: 400 17px/1.7 var(--f-body); color: var(--text-mid); max-width: 44ch;
+    }
+    .success-body a { color: var(--gold-text); border-bottom: 1px solid var(--gold); }
+    .success-body a:hover { color: var(--gold-dark); }
+
     /* ===========================
        LIGHTBOX
     =========================== */
@@ -807,30 +828,35 @@
         </div>
       </div>
 
-      <form class="contact-form reveal" id="contactForm" onsubmit="handleSubmit(event)">
+      <form class="contact-form reveal" id="contactForm" onsubmit="handleSubmit(event)" novalidate>
+        <!-- Formsubmit.co config -->
+        <input type="hidden" name="_subject" value="New Estimate Request — Victory Asphalt">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
         <div class="form-row">
           <div class="form-group">
             <label for="fname">Your Name *</label>
-            <input id="fname" type="text" placeholder="John Smith" required>
+            <input id="fname" name="name" type="text" placeholder="John Smith" required>
           </div>
           <div class="form-group">
             <label for="company">Company / Property</label>
-            <input id="company" type="text" placeholder="Smith Properties LLC">
+            <input id="company" name="company" type="text" placeholder="Smith Properties LLC">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="fphone">Phone</label>
-            <input id="fphone" type="tel" placeholder="(719) 555-0000">
+            <input id="fphone" name="phone" type="tel" placeholder="(719) 555-0000">
           </div>
           <div class="form-group">
             <label for="femail">Email *</label>
-            <input id="femail" type="email" placeholder="john@example.com" required>
+            <input id="femail" name="email" type="email" placeholder="john@example.com" required>
           </div>
         </div>
         <div class="form-group">
           <label for="service">Service Needed</label>
-          <select id="service">
+          <select id="service" name="service">
             <option value="">Select a service...</option>
             <option>Parking Lot Striping</option>
             <option>Crack Fill &amp; Seal Coat</option>
@@ -842,13 +868,24 @@
         </div>
         <div class="form-group">
           <label for="details">Project Details</label>
-          <textarea id="details"
+          <textarea id="details" name="details"
             placeholder="Tell us about your property: location, approximate lot size, and what you need done..."></textarea>
         </div>
-        <button type="submit" class="btn btn-gold form-submit">Send My Estimate Request</button>
+        <button type="submit" class="btn btn-gold form-submit" id="submitBtn">
+          Send My Estimate Request
+        </button>
         <p class="form-note">We typically respond within a few hours. No spam, ever.</p>
-        <p class="form-note" id="form-status" role="status" aria-live="polite" style="display:none;"></p>
       </form>
+
+      <!-- Success state (hidden until form submits) -->
+      <div class="form-success reveal" id="formSuccess" style="display:none;" role="status" aria-live="polite">
+        <div class="success-icon" aria-hidden="true">✓</div>
+        <h3 class="success-title">Request Sent</h3>
+        <p class="success-body">
+          We received your estimate request and will be in touch within a few hours.
+          If you need to reach us sooner, call <a href="tel:7193935654">(719) 393-5654</a>.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -987,17 +1024,44 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
-    // Form submit
-    function handleSubmit(e) {
+    // Form submit — sends to Formsubmit.co, stays on page, shows success state
+    async function handleSubmit(e) {
       e.preventDefault();
-      const btn    = e.target.querySelector('button[type="submit"]');
-      const status = document.getElementById('form-status');
-      btn.textContent = 'Request Sent';
-      btn.style.background = '#2a6e2a';
-      btn.style.color = '#fff';
-      btn.disabled = true;
-      status.style.display = 'block';
-      status.textContent   = 'Your estimate request has been sent. We will be in touch shortly.';
+      const form    = e.target;
+      const btn     = document.getElementById('submitBtn');
+      const success = document.getElementById('formSuccess');
+
+      // Basic client-side validation
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      btn.textContent = 'Sending…';
+      btn.disabled    = true;
+
+      try {
+        const res = await fetch('https://formsubmit.co/ajax/Chase@victoryasphaltservices.com', {
+          method:  'POST',
+          headers: { 'Accept': 'application/json' },
+          body:    new FormData(form)
+        });
+
+        if (res.ok) {
+          form.style.display    = 'none';
+          success.style.display = 'flex';
+          success.classList.add('visible');
+          success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          btn.textContent = 'Send My Estimate Request';
+          btn.disabled    = false;
+          alert('Something went wrong. Please call us at (719) 393-5654 or email Chase@victoryasphaltservices.com directly.');
+        }
+      } catch {
+        btn.textContent = 'Send My Estimate Request';
+        btn.disabled    = false;
+        alert('Network error. Please call us at (719) 393-5654 or email Chase@victoryasphaltservices.com directly.');
+      }
     }
   </script>
 
