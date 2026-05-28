@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victory Asphalt Services | Colorado Commercial Asphalt &amp; Striping</title>
+  <meta name="description" content="Victory Asphalt Services delivers professional asphalt paving, repair, and parking lot striping for commercial properties in Colorado. Faith-driven. Locally owned.">
+  <meta property="og:title" content="Victory Asphalt Services | Colorado Commercial Asphalt">
+  <meta property="og:description" content="Professional paving, repair, and striping for commercial properties across Colorado Springs. Faith-driven. Free estimates.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#1b2a6e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero.jpg">
+  <style>
+    /* ===========================
+       DESIGN TOKENS
+    =========================== */
+    :root {
+      /* Cool off-white base with blue cast */
+      --bg:         oklch(97%   0.01  240);
+      --surface:    oklch(95%   0.015 240);
+      --border:     oklch(88%   0.02  240);
+      --border-mid: oklch(80%   0.03  240);
+
+      /* Blue text system — contrast-safe on --bg */
+      --text:       oklch(28%   0.18  255);   /* ~10:1 on bg — passes AAA */
+      --text-mid:   oklch(38%   0.14  252);   /* ~6.5:1 on bg — passes AA */
+      --text-mute:  oklch(48%   0.09  245);   /* ~4.6:1 on bg — passes AA */
+      /* Gold variants: --gold for backgrounds/accents, --gold-text for readable text */
+      --gold-text:  oklch(48%   0.15  62);
+
+      /* Gold — matched to logo */
+      --gold:       oklch(76%   0.15  88);
+      --gold-dark:  oklch(67%   0.14  84);
+      --gold-faint: oklch(96%   0.035 92);
+
+      /* Blue depth — for about section, footer */
+      --dark:       oklch(34%   0.16  255);
+      --dark-mid:   oklch(42%   0.15  252);
+      --dark-text:  oklch(90%   0.04  240);
+      --dark-mute:  oklch(78%   0.07  240);
+
+      /* On-light white */
+      --white:      oklch(99%   0.004 240);
+
+      --f-head: 'Barlow Condensed', system-ui, sans-serif;
+      --f-body: 'Barlow', system-ui, sans-serif;
+      --max-w: 1240px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ===========================
+       RESET
+    =========================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--f-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===========================
+       ACCESSIBILITY
+    =========================== */
+    .skip {
+      position: fixed; top: -80px; left: 16px; z-index: 9999;
+      background: var(--gold); color: var(--text);
+      font: 700 12px/1 var(--f-body); letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 20px; border-radius: 2px; transition: top 0.2s;
+    }
+    .skip:focus { top: 16px; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* ===========================
+       BUTTONS
+    =========================== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font: 600 13px/1 var(--f-body); letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; border-radius: 2px; cursor: pointer; white-space: nowrap;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .btn-gold {
+      background: var(--gold); color: var(--text);
+      padding: 14px 28px;
+    }
+    .btn-gold:hover { background: var(--gold-dark); transform: translateY(-1px); }
+    .btn-lg { padding: 17px 36px; font-size: 14px; }
+
+    .btn-stroke-dark {
+      background: transparent; color: var(--text);
+      padding: 13px 28px; border: 1.5px solid var(--text);
+    }
+    .btn-stroke-dark:hover { background: var(--text); color: var(--white); }
+
+    .btn-stroke-light {
+      background: transparent; color: var(--white);
+      padding: 13px 28px; border: 1.5px solid rgba(255,255,255,0.5);
+    }
+    .btn-stroke-light:hover { background: var(--white); color: var(--text); }
+
+    /* ===========================
+       NAVIGATION
+    =========================== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      height: 68px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 48px;
+      background: oklch(97% 0.01 240 / 0.92); /* = --bg at 92% opacity */
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
+    }
+    .nav.over-hero {
+      background: transparent;
+      border-bottom-color: transparent;
+    }
+
+    .nav-brand { display: flex; align-items: center; gap: 12px; }
+    .nav-logo-img { height: 44px; width: auto; }
+    .nav-brand-text { display: flex; flex-direction: column; line-height: 1; }
+    .nav-brand-name {
+      font: 800 18px/1 var(--f-head); letter-spacing: 0.1em;
+      color: var(--text); transition: color 0.3s;
+    }
+    .nav-brand-sub {
+      font: 600 9px/1 var(--f-head); letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-top: 3px;
+    }
+    .nav.over-hero .nav-brand-name { color: var(--white); }
+
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font: 500 12px/1 var(--f-body); letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-mute); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav.over-hero .nav-links a { color: rgba(255,255,255,0.6); }
+    .nav.over-hero .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; padding: 4px; cursor: pointer;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px; border-radius: 1px;
+      background: var(--text); transition: background 0.3s;
+    }
+    .nav.over-hero .nav-toggle span { background: var(--white); }
+
+    /* ===========================
+       HERO
+    =========================== */
+    .hero {
+      position: relative; height: 100svh; min-height: 640px;
+      display: flex; align-items: flex-end; overflow: hidden;
+    }
+    .hero-photo {
+      position: absolute; inset: 0;
+      background: url('images/hero.jpg') center 55% / cover no-repeat;
+    }
+    /* Directional gradient: strong left dark for text legibility, fades to photo right,
+       and fades to the page background at the bottom for a seamless section join */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(100deg,
+          rgba(8,14,40,0.78) 0%,
+          rgba(8,14,40,0.46) 50%,
+          rgba(8,14,40,0.12) 100%
+        ),
+        linear-gradient(to top,
+          oklch(97% 0.01 240) 0%,
+          oklch(97% 0.01 240 / 0) 22%
+        );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 48px 88px;
+      max-width: 900px;
+    }
+    .hero-h1 {
+      font: 900 clamp(68px, 9.5vw, 120px)/0.92 var(--f-head);
+      letter-spacing: -0.01em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 28px;
+    }
+    .hero-h1 .gold { color: var(--gold); }
+    .hero-sub {
+      font: 400 18px/1.7 var(--f-body);
+      color: rgba(255,255,255,0.78);
+      max-width: 52ch; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ===========================
+       SERVICES
+    =========================== */
+    .services { padding: 96px 48px; }
+    .services-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .services-heading {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 32px; padding-bottom: 28px;
+      border-bottom: 1.5px solid var(--text); margin-bottom: 0;
+    }
+    .services-h2 {
+      font: 900 clamp(44px, 6vw, 72px)/1 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+    }
+    .services-note {
+      font: 400 16px/1.65 var(--f-body);
+      color: var(--text-mid); max-width: 46ch; text-align: right;
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 1.1fr auto;
+      align-items: center; gap: 0 48px;
+      padding: 44px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .service-num {
+      font: 900 52px/1 var(--f-head);
+      color: var(--gold); letter-spacing: -0.02em;
+    }
+    .service-name {
+      font: 800 clamp(28px, 3.2vw, 42px)/1 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+    }
+    .service-desc {
+      font: 400 16px/1.72 var(--f-body);
+      color: var(--text-mid);
+    }
+    .service-action {
+      font: 700 11px/1 var(--f-body); letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold-text); white-space: nowrap;
+      padding: 12px 0; border-bottom: 1px solid var(--gold);
+      transition: border-color 0.2s, letter-spacing 0.25s var(--ease), color 0.2s;
+    }
+    .service-action:hover { letter-spacing: 0.2em; border-color: var(--gold-dark); color: var(--gold-dark); }
+
+    /* ===========================
+       GALLERY
+    =========================== */
+    .gallery { padding: 0 0 96px; }
+    .gallery-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 48px; }
+
+    .gallery-heading {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 32px; padding-bottom: 28px;
+      border-bottom: 1.5px solid var(--text); margin-bottom: 4px;
+    }
+    .gallery-h2 {
+      font: 900 clamp(44px, 6vw, 72px)/1 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+    }
+
+    /* Two hero-height featured photos */
+    .gallery-featured {
+      display: grid; grid-template-columns: 3fr 2fr; gap: 4px;
+      margin-bottom: 4px;
+    }
+    .gallery-featured .gi img { height: 500px; }
+
+    /* 4-up grid */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+    }
+
+    .gi {
+      position: relative; overflow: hidden;
+      background: var(--surface); cursor: pointer;
+      border: none; padding: 0;
+    }
+    .gi:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+    .gi img {
+      width: 100%; height: 240px; object-fit: cover;
+      transition: transform 0.65s var(--ease);
+    }
+    .gi:hover img { transform: scale(1.05); }
+    .gi-overlay {
+      position: absolute; inset: 0;
+      background: rgba(8,14,40,0);
+      transition: background 0.3s;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .gi:hover .gi-overlay { background: rgba(8,14,40,0.36); }
+    .gi-zoom {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.75);
+      transition: opacity 0.3s, transform 0.35s var(--ease);
+    }
+    .gi:hover .gi-zoom { opacity: 1; transform: scale(1); }
+    .gi-zoom svg { width: 18px; height: 18px; fill: var(--text); }
+
+    /* ===========================
+       ABOUT
+    =========================== */
+    .about {
+      background: var(--dark);
+      padding: 96px 48px;
+    }
+    .about-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 96px; align-items: center;
+    }
+    .about-text { display: flex; flex-direction: column; gap: 28px; }
+    .about-kicker {
+      font: 600 10px/1 var(--f-body); letter-spacing: 0.3em; text-transform: uppercase;
+      color: oklch(72% 0.15 80); /* lighter gold — readable on dark --dark background */
+    }
+    .about-h2 {
+      font: 900 clamp(44px, 5.5vw, 68px)/0.96 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+      color: var(--white);
+    }
+    .about-body {
+      font: 400 17px/1.82 var(--f-body);
+      color: var(--dark-text); max-width: 50ch;
+    }
+    .about-body strong { color: var(--white); font-weight: 600; }
+    .about-body + .about-body { margin-top: -12px; }
+    .about-photo-wrap { position: relative; }
+    .about-photo-wrap img {
+      width: 100%; height: 560px; object-fit: cover; display: block;
+    }
+    .about-accent {
+      position: absolute; top: -14px; right: -14px;
+      width: 55%; height: 55%;
+      border: 1px solid oklch(64% 0.17 62 / 0.3);
+      pointer-events: none;
+    }
+
+    /* ===========================
+       CONTACT
+    =========================== */
+    .contact { padding: 96px 48px; }
+    .contact-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: 5fr 7fr;
+      gap: 80px; align-items: start;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 40px; }
+    .contact-h2 {
+      font: 900 clamp(44px, 5vw, 64px)/0.96 var(--f-head);
+      text-transform: uppercase; letter-spacing: 0.01em;
+    }
+    .contact-sub {
+      font: 400 17px/1.72 var(--f-body);
+      color: var(--text-mid); max-width: 40ch;
+      margin-top: -16px;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 20px; }
+    .cd { display: flex; flex-direction: column; gap: 4px; }
+    .cd-label {
+      font: 600 10px/1 var(--f-body); letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold-text);
+    }
+    .cd-val {
+      font: 400 18px/1.5 var(--f-body); color: var(--text);
+      transition: color 0.2s;
+    }
+    .cd-val:hover { color: var(--gold); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 18px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font: 600 10px/1 var(--f-body); letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-mute);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 2px; padding: 13px 16px;
+      font: 400 15px/1 var(--f-body); color: var(--text);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px oklch(64% 0.17 62 / 0.14);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-mute); }
+    .form-group select option { background: var(--white); }
+    .form-group textarea { height: 128px; resize: vertical; line-height: 1.6; }
+    .form-submit {
+      width: 100%; padding: 17px; font-size: 14px;
+      letter-spacing: 0.12em;
+    }
+    .form-note {
+      font: 400 13px/1.5 var(--f-body); color: var(--text-mute); text-align: center;
+    }
+
+    /* ===========================
+       LIGHTBOX
+    =========================== */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(12,57,163,0.94);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+    .lb-close {
+      position: absolute; top: 24px; right: 32px;
+      font: 300 40px/1 var(--f-body); color: var(--white);
+      background: none; border: none; cursor: pointer; padding: 4px;
+      transition: color 0.2s;
+    }
+    .lb-close:hover { color: var(--gold); }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--dark-mid);
+    }
+    .footer-top {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 56px 48px 40px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+    .footer-logo-row { display: flex; align-items: center; gap: 12px; }
+    .footer-logo-row img { height: 40px; width: auto; }
+    .footer-brand-name {
+      font: 900 17px/1 var(--f-head); letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .footer-brand-sub {
+      font: 600 9px/1 var(--f-head); letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-top: 3px;
+    }
+    .footer-tagline {
+      font: 400 14px/1.72 var(--f-body); color: var(--dark-mute); max-width: 260px;
+    }
+    .footer-col-title {
+      font: 700 10px/1 var(--f-head); letter-spacing: 0.3em; text-transform: uppercase;
+      color: oklch(72% 0.15 80); /* lighter gold — readable on dark footer background */
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a {
+      font: 400 14px/1 var(--f-body); color: var(--dark-mute); transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid var(--dark-mid);
+      padding: 20px 48px; max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .footer-copy { font: 400 13px/1 var(--f-body); color: var(--dark-mute); }
+
+    /* ===========================
+       SCROLL REVEAL
+    =========================== */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ===========================
+       REDUCED MOTION
+    =========================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 1024px) {
+      .nav,
+      .services, .gallery-inner, .about, .contact,
+      .footer-top, .footer-bottom { padding-left: 32px; padding-right: 32px; }
+
+      /* Tablet: stack to 2 rows — number+name on top, desc+action below */
+      .service-row {
+        grid-template-columns: 56px 1fr;
+        grid-template-rows: auto auto;
+        gap: 12px 24px;
+      }
+      .service-num { grid-row: 1; }
+      .service-name { grid-row: 1; }
+      .service-desc { grid-row: 2; grid-column: 2; display: block; }
+      .service-action { grid-row: 2; grid-column: 2; display: block; margin-top: 8px; }
+
+      .gallery-featured { grid-template-columns: 1fr; }
+      .gallery-featured .gi img { height: 380px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .about-inner { grid-template-columns: 1fr; gap: 56px; }
+      .about-photo-wrap { display: none; }
+
+      .contact-inner { grid-template-columns: 1fr; gap: 56px; }
+
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 0 20px; }
+      .nav-links, .nav-cta-btn { display: none; }
+      .nav-toggle { display: flex; }
+
+      .hero-content { padding: 0 24px 72px; }
+      .services, .gallery-inner, .about, .contact { padding: 72px 24px; }
+
+      .services-heading { flex-direction: column; gap: 16px; }
+      .services-note { text-align: left; }
+
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-heading { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+      .hero-actions { flex-direction: column; max-width: 300px; }
+      .hero-actions .btn { width: 100%; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer-top { grid-template-columns: 1fr; padding: 40px 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip">Skip to main content</a>
+
+  <!-- =====================
+       NAV
+  ====================== -->
+  <nav class="nav over-hero" id="navbar" aria-label="Main navigation">
+    <a href="#" class="nav-brand">
+      <img src="images/logo.png" alt="Victory Asphalt Services" class="nav-logo-img" onerror="this.style.display='none'">
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">VICTORY</span>
+        <span class="nav-brand-sub">Asphalt Services</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <a href="#contact" class="btn btn-gold nav-cta-btn">Free Estimate</a>
+
+    <button class="nav-toggle" id="navToggle"
+      aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main id="main-content">
+
+  <!-- =====================
+       HERO
+  ====================== -->
+  <section class="hero" id="hero">
+    <div class="hero-photo"
+      role="img"
+      aria-label="Rain-soaked freshly paved commercial parking lot"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-h1">
+        Colorado<br>
+        Commercial<br>
+        <span class="gold">Asphalt.</span>
+      </h1>
+      <p class="hero-sub">
+        Victory Asphalt Services delivers professional paving, repair, and striping
+        for commercial properties across Colorado. Done right, every time.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-gold btn-lg">Get a Free Estimate</a>
+        <a href="#gallery" class="btn btn-stroke-light btn-lg">View Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+       SERVICES
+  ====================== -->
+  <section class="services" id="services">
+    <div class="services-inner">
+      <div class="services-heading reveal">
+        <h2 class="services-h2">Services</h2>
+        <p class="services-note">Commercial parking lot maintenance and surface rehab for retail, industrial, and commercial properties throughout Colorado Springs and nearby areas.</p>
+      </div>
+
+      <div class="service-row reveal">
+        <span class="service-num" aria-hidden="true">01</span>
+        <h3 class="service-name">Parking Lot Striping</h3>
+        <p class="service-desc">Crisp parking stalls, ADA markings, directional arrows, fire lanes, curb paint, and layout work that keeps your property safe, compliant, and professional.</p>
+        <a href="#contact" class="service-action">Get a Quote</a>
+      </div>
+
+      <div class="service-row reveal">
+        <span class="service-num" aria-hidden="true">02</span>
+        <h3 class="service-name">Crack Fill &amp; Seal Coat</h3>
+        <p class="service-desc">Preventive maintenance that seals out moisture, slows surface breakdown, refreshes appearance, and helps extend the life of high-traffic asphalt lots.</p>
+        <a href="#contact" class="service-action">Get a Quote</a>
+      </div>
+
+      <div class="service-row reveal">
+        <span class="service-num" aria-hidden="true">03</span>
+        <h3 class="service-name">Milling, Overlay &amp; Patching</h3>
+        <p class="service-desc">From localized asphalt patches to mill-and-overlay resurfacing, we repair damaged sections and restore commercial lots without overbuilding the whole site.</p>
+        <a href="#contact" class="service-action">Get a Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+       GALLERY
+  ====================== -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-inner">
+      <div class="gallery-heading reveal">
+        <h2 class="gallery-h2">Recent Work</h2>
+        <a href="#contact" class="btn btn-stroke-dark">Start a Project</a>
+      </div>
+
+      <div class="gallery-featured">
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: ADA-compliant striping on concrete parking lot">
+          <img src="images/gallery-7.jpg"
+            alt="ADA-compliant striping on concrete parking lot" decoding="async">
+          <div class="gi-overlay" aria-hidden="true">
+            <div class="gi-zoom">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </div>
+          </div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Fresh striping at convenience store parking lot">
+          <img src="images/gallery-4.jpg"
+            alt="Fresh striping at convenience store parking lot" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true">
+            <div class="gi-zoom">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div class="gallery-grid">
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Striping machine at senior living community with mountain views">
+          <img src="images/gallery-14.jpg" alt="Striping machine in process at senior living community parking lot with Colorado mountains visible" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Striping machine applying lines at senior living parking lot">
+          <img src="images/gallery-10.jpg" alt="Striping machine applying lines at senior living community parking lot" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Parking lot striping in progress at Colorado Springs senior living community">
+          <img src="images/gallery-11.jpg" alt="Parking lot striping in progress at senior living community, Colorado Springs" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Fresh ADA handicap markings at residential complex">
+          <img src="images/gallery-12.jpg" alt="Fresh ADA handicap markings and access aisle at residential complex" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: ADA handicap parking at assisted living facility">
+          <img src="images/gallery-13.jpg" alt="ADA-compliant handicap parking installation at assisted living facility" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: ADA handicap parking at sports facility">
+          <img src="images/gallery-1.jpg" alt="ADA handicap parking at sports facility" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Yellow parking lot striping, commercial property">
+          <img src="images/gallery-3.jpg" alt="Yellow parking lot striping, commercial property" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Fresh striping at Shell gas station">
+          <img src="images/gallery-4.jpg" alt="Fresh striping at Shell gas station" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Yellow striping at Sinclair gas station">
+          <img src="images/gallery-6.jpg" alt="Yellow striping at Sinclair gas station" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: ADA marking installation in progress">
+          <img src="images/gallery-5.jpg" alt="ADA marking installation in progress" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: New concrete parking lot with fresh striping">
+          <img src="images/gallery-2.jpg" alt="New concrete parking lot with fresh striping" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+        <button class="gi reveal"
+          onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)"
+          aria-label="View: Freshly paved lot with ADA markings">
+          <img src="images/gallery-9.jpg" alt="Freshly paved lot with ADA markings" loading="lazy" decoding="async">
+          <div class="gi-overlay" aria-hidden="true"><div class="gi-zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div></div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+       ABOUT
+  ====================== -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-text reveal">
+        <p class="about-kicker">About Victory Asphalt</p>
+        <h2 class="about-h2">Faith-Driven.<br>Colorado Springs Built.</h2>
+        <p class="about-body">
+          Victory Asphalt Services is a locally owned contractor built on integrity and honest work.
+          We serve commercial properties across Colorado Springs and surrounding areas: restaurants,
+          gas stations, retailers, warehouses, and property managers. We do exactly what we say we are going to do.
+          <strong>We show up on time, execute with precision, and stand behind every project.</strong>
+        </p>
+        <p class="about-body">
+          Our crews handle the full scope: striping, crack fill, seal coat, patching, milling,
+          overlay work, and ADA-compliant markings that keep your property safe and code-compliant. One company,
+          start to finish.
+        </p>
+        <a href="#contact" class="btn btn-gold">Request an Estimate</a>
+      </div>
+      <div class="about-photo-wrap reveal">
+        <img src="images/about.jpg" alt="Victory Asphalt Services crew paving a commercial property in Colorado Springs">
+        <div class="about-accent" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================
+       CONTACT
+  ====================== -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <h2 class="contact-h2">Get a Free Estimate</h2>
+        <p class="contact-sub">We serve commercial properties in Colorado Springs and surrounding areas. Fill out the form or give us a call. We respond the same day.</p>
+        <div class="contact-details">
+          <div class="cd">
+            <span class="cd-label">Phone</span>
+            <a href="tel:7193935654" class="cd-val">(719) 393-5654</a>
+          </div>
+          <div class="cd">
+            <span class="cd-label">Email</span>
+            <a href="mailto:Chase@victoryasphaltservices.com" class="cd-val">Chase@victoryasphaltservices.com</a>
+          </div>
+          <div class="cd">
+            <span class="cd-label">Service Area</span>
+            <span class="cd-val" style="font-size:16px;">Colorado Springs &amp; Surrounding Areas</span>
+          </div>
+          <div class="cd">
+            <span class="cd-label">Hours</span>
+            <span class="cd-val" style="font-size:16px;line-height:1.6;">
+              Mon–Fri: 7am–6pm<br>Sat: By Appointment
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Your Name *</label>
+            <input id="fname" type="text" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="company">Company / Property</label>
+            <input id="company" type="text" placeholder="Smith Properties LLC">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fphone">Phone</label>
+            <input id="fphone" type="tel" placeholder="(719) 555-0000">
+          </div>
+          <div class="form-group">
+            <label for="femail">Email *</label>
+            <input id="femail" type="email" placeholder="john@example.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="service">Service Needed</label>
+          <select id="service">
+            <option value="">Select a service...</option>
+            <option>Parking Lot Striping</option>
+            <option>Crack Fill &amp; Seal Coat</option>
+            <option>Milling, Overlay &amp; Patching</option>
+            <option>ADA Compliance Markings</option>
+            <option>Multiple Services / Full Project</option>
+            <option>Not Sure, Need Advice</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="details">Project Details</label>
+          <textarea id="details"
+            placeholder="Tell us about your property: location, approximate lot size, and what you need done..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold form-submit">Send My Estimate Request</button>
+        <p class="form-note">We typically respond within a few hours. No spam, ever.</p>
+        <p class="form-note" id="form-status" role="status" aria-live="polite" style="display:none;"></p>
+      </form>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lb-close" onclick="closeLightbox()" aria-label="Close photo viewer">×</button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <!-- =====================
+       FOOTER
+  ====================== -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo-row">
+          <img src="images/logo.png" alt="Victory Asphalt Services" onerror="this.style.display='none'">
+          <div>
+            <div class="footer-brand-name">VICTORY</div>
+            <div class="footer-brand-sub">Asphalt Services</div>
+          </div>
+        </div>
+        <p class="footer-tagline">Faith-driven, Colorado Springs-based. Commercial asphalt paving, repair, and striping done with precision and integrity.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Services</p>
+        <ul>
+          <li><a href="#services">Parking Lot Striping</a></li>
+          <li><a href="#services">Crack Fill &amp; Seal Coat</a></li>
+          <li><a href="#services">Milling, Overlay &amp; Patching</a></li>
+          <li><a href="#services">ADA Compliance</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Company</p>
+        <ul>
+          <li><a href="#about">About Victory</a></li>
+          <li><a href="#gallery">Our Projects</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#contact">Free Estimate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contact</p>
+        <ul>
+          <li><a href="tel:7193935654">(719) 393-5654</a></li>
+          <li><a href="mailto:Chase@victoryasphaltservices.com">Chase@victoryasphaltservices.com</a></li>
+          <li><a href="#contact">Colorado Springs Area</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Victory Asphalt Services. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Nav: transparent over hero, solid after scroll
+    const navbar = document.getElementById('navbar');
+    function updateNav() {
+      const heroBottom = document.getElementById('hero').offsetHeight - 80;
+      if (window.scrollY > heroBottom) {
+        navbar.classList.remove('over-hero');
+      } else {
+        navbar.classList.add('over-hero');
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const navMenu   = document.getElementById('nav-menu');
+    let navOpen = false;
+
+    function openNav() {
+      navOpen = true;
+      navMenu.style.cssText = [
+        'display:flex', 'position:fixed', 'top:68px', 'left:0', 'right:0',
+        'background:oklch(97% 0.012 240)', 'flex-direction:column',
+        'padding:28px 32px', 'gap:22px',
+        'border-top:1px solid oklch(88% 0.02 240)',
+        'z-index:998', 'box-shadow:0 8px 24px rgba(18,101,255,0.10)'
+      ].join(';');
+      navMenu.querySelectorAll('a').forEach(a => {
+        a.style.color = 'oklch(47% 0.22 255)';
+        a.style.fontSize = '16px';
+      });
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Close navigation menu');
+    }
+    function closeNav() {
+      navOpen = false;
+      navMenu.style.cssText = '';
+      navMenu.querySelectorAll('a').forEach(a => {
+        a.style.color = '';
+        a.style.fontSize = '';
+      });
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open navigation menu');
+    }
+    navToggle.addEventListener('click', () => navOpen ? closeNav() : openNav());
+    navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    document.addEventListener('click', e => {
+      if (navOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) closeNav();
+    });
+
+    // Scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${(i % 3) * 0.07}s`;
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Lightbox
+    function openLightbox(src, alt) {
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      img.alt = alt || '';
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.querySelector('.lb-close').focus();
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn    = e.target.querySelector('button[type="submit"]');
+      const status = document.getElementById('form-status');
+      btn.textContent = 'Request Sent';
+      btn.style.background = '#2a6e2a';
+      btn.style.color = '#fff';
+      btn.disabled = true;
+      status.style.display = 'block';
+      status.textContent   = 'Your estimate request has been sent. We will be in touch shortly.';
+    }
+  </script>
+
+</body>
+</html>
