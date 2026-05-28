@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ewhardage.github.io/victory-asphalt/sitemap.xml
